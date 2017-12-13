@@ -17,14 +17,13 @@ const (
 )
 
 type Client struct {
-	URL         *url.URL
-	HTTPClient  *http.Client
-	Username    string
-	Password    string
-	AccessKeyID string
+	URL             *url.URL
+	HTTPClient      *http.Client
+	AccessKeyID     string
+	SecretAccessKey string
 }
 
-func (c *Client) NewClient(u, username, password, accessKeyID string) (*Client, error) {
+func NewClient(u, accessKeyID, secretAccessKey string) (*Client, error) {
 	parsedURL, err := url.ParseRequestURI(u)
 
 	if err != nil {
@@ -32,15 +31,14 @@ func (c *Client) NewClient(u, username, password, accessKeyID string) (*Client, 
 	}
 
 	return &Client{
-		URL:         parsedURL,
-		HTTPClient:  http.DefaultClient,
-		Username:    username,
-		Password:    password,
-		AccessKeyID: accessKeyID,
+		URL:             parsedURL,
+		HTTPClient:      http.DefaultClient,
+		AccessKeyID:     accessKeyID,
+		SecretAccessKey: secretAccessKey,
 	}, nil
 }
 
-func (c *Client) NewRequest(ctx context.Context, method string, u url.URL, body io.Reader) (*http.Request, error) {
+func (c *Client) NewRequest(ctx context.Context, method string, u *url.URL, body io.Reader) (*http.Request, error) {
 	encodedQuery := encodeQuery(u)
 
 	reqStr := fmt.Sprintf("SignatureMethod=%s&SignatureVersion=%s&AccessKeyId=%s&%s",
@@ -49,6 +47,7 @@ func (c *Client) NewRequest(ctx context.Context, method string, u url.URL, body 
 	sign := fmt.Sprintf("%s\n%s\n%s\n%s", method, u.Host, u.Path, reqStr)
 
 	hash := hmac.New(sha256.New, []byte(sign))
+	hash.Write([]byte(c.SecretAccessKey))
 	signature := base64.StdEncoding.EncodeToString([]byte(hash.Sum(nil)))
 
 	req, err := http.NewRequest(method, u.String(), body)
@@ -61,7 +60,7 @@ func (c *Client) NewRequest(ctx context.Context, method string, u url.URL, body 
 	return req, nil
 }
 
-func encodeQuery(u url.URL) string {
+func encodeQuery(u *url.URL) string {
 	query := url.Values{}
 	for key, values := range u.Query() {
 		for _, v := range values {
