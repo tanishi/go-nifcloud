@@ -12,15 +12,12 @@ func (c *Client) CreateSecurityGroup(ctx context.Context, param *CreateSecurityG
 		fmt.Errorf("Validation error: missing GroupName")
 	}
 
-	u := c.URL
-	q := u.Query()
-	q.Set("Action", "CreateSecurityGroup")
-	q.Set("GroupName", param.GroupName)
-	//q.Set("GroupDescription", param.GroupDescription)
-	//q.Set("Placement.AvailabilityZone", param.AvailabilityZone)
-	u.RawQuery = q.Encode()
+	q := Query{
+		"Action":    "CreateSecurityGroup",
+		"GroupName": param.GroupName,
+	}
 
-	req, err := c.NewRequest(ctx, "POST", u, nil)
+	req, err := c.NewRequest(ctx, "POST", q)
 
 	if err != nil {
 		return nil, err

@@ -6,11 +6,9 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/xml"
-	"fmt"
-	"io"
 	"net/http"
 	"net/url"
-	"time"
+	"strings"
 )
 
 const (
@@ -26,7 +24,7 @@ type Client struct {
 }
 
 func NewClient(u, accessKeyID, secretAccessKey string) (*Client, error) {
-	parsedURL, err := url.ParseRequestURI(u)
+	parsedURL, err := url.Parse(u)
 
 	if err != nil {
 		return nil, err
@@ -40,43 +38,28 @@ func NewClient(u, accessKeyID, secretAccessKey string) (*Client, error) {
 	}, nil
 }
 
-func (c *Client) NewRequest(ctx context.Context, method string, u *url.URL, body io.Reader) (*http.Request, error) {
-	encodedQuery := encodeQuery(*u)
+func (c *Client) NewRequest(ctx context.Context, method string, query Query) (*http.Request, error) {
+	query["AccessKeyId"] = c.AccessKeyID
+	query["SignatureMethod"] = SignatureMethod
+	query["SignatureVersion"] = SignatureVersion
 
-	t := time.Now().UTC().Format(time.RFC3339)
-
-	reqStr := fmt.Sprintf("SignatureMethod=%s&SignatureVersion=%s&AccessKeyId=%s&%s&%s",
-		SignatureMethod, SignatureVersion, c.AccessKeyID, t, encodedQuery)
-
-	sign := fmt.Sprintf("%s\n%s\n%s\n%s", method, u.Host, u.Path, reqStr)
-
+	u := c.URL
+	sign := generateStringToSign(method, u.Host, u.Path, query)
 	signature := generateSignature(c.SecretAccessKey, sign)
 
-	q := u.Query()
-	q.Set("Signature", signature)
-	q.Set("AccessKeyId", c.AccessKeyID)
-	q.Set("SignatureMethod", SignatureMethod)
-	q.Set("SignatureVersion", SignatureVersion)
-	q.Set("Timestamp", t)
-	u.RawQuery = q.Encode()
+	query["Signature"] = signature
 
-	req, err := http.NewRequest(method, u.String(), body)
+	values := url.Values{}
+	for key, value := range query {
+		values.Add(key, value)
+	}
+
+	req, err := http.NewRequest(method, u.String(), strings.NewReader(values.Encode()))
 	if err != nil {
 		return nil, err
 	}
 
 	return req, nil
-}
-
-func encodeQuery(u url.URL) string {
-	query := url.Values{}
-	for key, values := range u.Query() {
-		for _, v := range values {
-			query.Add(key, v)
-		}
-	}
-
-	return query.Encode()
 }
 
 func decodeBody(resp *http.Response, out interface{}) error {
@@ -91,4 +74,12 @@ func generateSignature(key, msg string) string {
 	signature := base64.StdEncoding.EncodeToString([]byte(hash.Sum(nil)))
 
 	return signature
+}
+
+func generateStringToSign(method, endpoint, path string, q Query) string {
+	values := url.Values{}
+	for key, value := range q {
+		values.Add(key, value)
+	}
+	return method + "\n" + endpoint + "\n" + path + "\n" + values.Encode()
 }
