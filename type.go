@@ -14,7 +14,7 @@ type CreateSecurityGroupInput struct {
 }
 
 type CreateSecurityGroupOutput struct {
-	CreateSecurityGroupResponse string `"CreateSecurityGroupResponse"`
+	CreateSecurityGroupResponse string `xml:"CreateSecurityGroupResponse"`
 	RequestID                   string `xml:"requestId"`
 	Return                      bool   `xml:"return"`
 }
