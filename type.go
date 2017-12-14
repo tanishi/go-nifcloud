@@ -14,8 +14,9 @@ type CreateSecurityGroupInput struct {
 }
 
 type CreateSecurityGroupOutput struct {
-	RequestID string `xml:"requestId"`
-	Return    bool   `xml:return`
+	CreateSecurityGroupResponse string `"CreateSecurityGroupResponse"`
+	RequestID                   string `xml:"requestId"`
+	Return                      bool   `xml:"return"`
 }
 
 type Query map[string]string
