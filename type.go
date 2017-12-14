@@ -19,6 +19,16 @@ type CreateSecurityGroupOutput struct {
 	Return                      bool   `xml:"return"`
 }
 
+type DeleteSecurityGroupInput struct {
+	GroupName string
+}
+
+type DeleteSecurityGroupOutput struct {
+	DeleteSecurityGroupResponse string `xml:"DeleteSecurityGroupResponse"`
+	RequestID                   string `xml:"requestId"`
+	Return                      bool   `xml:"return"`
+}
+
 type Query map[string]string
 
 type SortedQuery struct {

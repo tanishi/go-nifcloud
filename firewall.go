@@ -38,7 +38,37 @@ func (c *Client) CreateSecurityGroup(ctx context.Context, param *CreateSecurityG
 	return &body, nil
 }
 
-func (c *Client) DeleteSecurityGroup()                         {}
+func (c *Client) DeleteSecurityGroup(ctx context.Context, param *DeleteSecurityGroupInput) (*DeleteSecurityGroupOutput, error) {
+	if param.GroupName == "" {
+		fmt.Errorf("Validation error: missing GroupName")
+	}
+
+	q := Query{
+		"Action":    "DeleteSecurityGroup",
+		"GroupName": param.GroupName,
+	}
+
+	req, err := c.NewRequest(ctx, "POST", q)
+
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.HTTPClient.Do(req)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var body DeleteSecurityGroupOutput
+
+	if err := decodeBody(res, &body); err != nil {
+		return nil, err
+	}
+
+	return &body, nil
+}
+
 func (c *Client) DeregisterInstancesFromSecurityGroup()        {}
 func (c *Client) DescribeSecurityActivities()                  {}
 func (c *Client) DescribeSecurityGroups()                      {}
