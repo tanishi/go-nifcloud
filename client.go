@@ -47,9 +47,8 @@ func (c *Client) NewRequest(ctx context.Context, method string, query Query) (*h
 	sign := generateStringToSign(method, u.Host, u.Path, query)
 	signature := generateSignature(c.SecretAccessKey, sign)
 
-	query["Signature"] = signature
-
 	values := url.Values{}
+	values.Add("Signature", signature)
 	for key, value := range query {
 		values.Add(key, value)
 	}
@@ -58,6 +57,8 @@ func (c *Client) NewRequest(ctx context.Context, method string, query Query) (*h
 	if err != nil {
 		return nil, err
 	}
+
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	return req, nil
 }
@@ -77,9 +78,6 @@ func generateSignature(key, msg string) string {
 }
 
 func generateStringToSign(method, endpoint, path string, q Query) string {
-	values := url.Values{}
-	for key, value := range q {
-		values.Add(key, value)
-	}
-	return method + "\n" + endpoint + "\n" + path + "\n" + values.Encode()
+	sq := NewSortedQuery(q)
+	return method + "\n" + endpoint + "\n" + path + "\n" + sq.String()
 }
