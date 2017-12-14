@@ -2,7 +2,6 @@ package nifcloud
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"testing"
 )
@@ -31,5 +30,7 @@ func TestCreateSecurityGroup(t *testing.T) {
 		t.Error(err)
 	}
 
-	fmt.Println(res)
+	if !res.Return {
+		t.Error(res.Return)
+	}
 }

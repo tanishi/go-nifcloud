@@ -44,16 +44,14 @@ func (c *Client) NewRequest(ctx context.Context, method string, query Query) (*h
 	query["SignatureVersion"] = SignatureVersion
 
 	u := c.URL
+
 	sign := generateStringToSign(method, u.Host, u.Path, query)
 	signature := generateSignature(c.SecretAccessKey, sign)
+	query["Signature"] = signature
 
-	values := url.Values{}
-	values.Add("Signature", signature)
-	for key, value := range query {
-		values.Add(key, value)
-	}
+	sq := NewSortedQuery(query)
 
-	req, err := http.NewRequest(method, u.String(), strings.NewReader(values.Encode()))
+	req, err := http.NewRequest(method, u.String(), strings.NewReader(sq.String()))
 	if err != nil {
 		return nil, err
 	}
