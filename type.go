@@ -7,9 +7,8 @@ type CreateSecurityGroupInput struct {
 }
 
 type CreateSecurityGroupOutput struct {
-	CreateSecurityGroupResponse string `xml:"CreateSecurityGroupResponse"`
-	RequestID                   string `xml:"requestId"`
-	Return                      bool   `xml:"return"`
+	RequestID string `xml:"requestId"`
+	Return    bool   `xml:"return"`
 }
 
 type DeleteSecurityGroupInput struct {
@@ -17,9 +16,8 @@ type DeleteSecurityGroupInput struct {
 }
 
 type DeleteSecurityGroupOutput struct {
-	DeleteSecurityGroupResponse string `xml:"DeleteSecurityGroupResponse"`
-	RequestID                   string `xml:"requestId"`
-	Return                      bool   `xml:"return"`
+	RequestID string `xml:"requestId"`
+	Return    bool   `xml:"return"`
 }
 
 type DescribeSecurityGroupsInput struct {
