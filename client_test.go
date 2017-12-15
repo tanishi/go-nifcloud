@@ -131,11 +131,19 @@ func TestEncodeQuery(t *testing.T) {
 		"Description":      "/",
 	}
 
-	expected := url.Values{}
-
-	for key, value := range query {
-		expected[key] = append(expected[key], value)
+	keys := make([]string, 0, len(query))
+	for key, _ := range query {
+		keys = append(keys, key)
 	}
+
+	sort.Strings(keys)
+
+	a := make([]string, 0, len(query))
+	for _, key := range keys {
+		a = append(a, url.QueryEscape(key)+"="+url.QueryEscape(query[key]))
+	}
+
+	expected := strings.Join(a, "&")
 
 	actual := encodeQuery(query)
 

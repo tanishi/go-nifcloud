@@ -8,6 +8,7 @@ import (
 	"encoding/xml"
 	"net/http"
 	"net/url"
+	"sort"
 	"strings"
 )
 
@@ -80,10 +81,18 @@ func generateStringToSign(method, endpoint, path string, q Query) string {
 }
 
 func encodeQuery(q Query) string {
-	values := url.Values{}
-	for key, value := range q {
-		values.Set(key, value)
+	keys := make([]string, 0, len(q))
+	for key, _ := range q {
+		keys = append(keys, key)
 	}
 
-	return values.Encode()
+	sort.Strings(keys)
+
+	a := make([]string, 0, len(q))
+	for _, key := range keys {
+		a = append(a, url.QueryEscape(key)+"="+url.QueryEscape(q[key]))
+	}
+	s := strings.Join(a, "&")
+
+	return s
 }
