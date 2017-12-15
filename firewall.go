@@ -11,8 +11,10 @@ func (c *Client) CreateSecurityGroup(ctx context.Context, param *CreateSecurityG
 	}
 
 	q := Query{
-		"Action":    "CreateSecurityGroup",
-		"GroupName": param.GroupName,
+		"Action":                     "CreateSecurityGroup",
+		"GroupName":                  param.GroupName,
+		"GroupDescription":           param.GroupDescription,
+		"Placement.AvailabilityZone": param.AvailabilityZone,
 	}
 
 	req, err := c.NewRequest(ctx, "POST", q)
