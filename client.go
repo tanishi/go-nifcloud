@@ -77,6 +77,9 @@ func generateSignature(key, msg string) string {
 }
 
 func generateStringToSign(method, endpoint, path string, q Query) string {
-	sq := NewSortedQuery(q)
-	return method + "\n" + endpoint + "\n" + path + "\n" + sq.String()
+	values := url.Values{}
+	for key, value := range q {
+		values.Set(key, value)
+	}
+	return method + "\n" + endpoint + "\n" + path + "\n" + values.Encode()
 }
