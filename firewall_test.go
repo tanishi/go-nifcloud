@@ -80,7 +80,7 @@ func TestDescribeSecurityGroups(t *testing.T) {
 
 	params := &DescribeSecurityGroupsInput{}
 
-	res, err := c.DescribeSecurityGroups(ctx, params)
+	_, err = c.DescribeSecurityGroups(ctx, params)
 
 	if err != nil {
 		t.Error(err)
