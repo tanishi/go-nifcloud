@@ -2,10 +2,11 @@ package nifcloud
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"net/url"
 	"reflect"
+	"sort"
+	"strings"
 	"testing"
 )
 
@@ -98,6 +99,47 @@ func TestGenerateStringToSign(t *testing.T) {
 		"Description":      "/",
 	}
 
+	keys := make([]string, 0, len(query))
+	for key, _ := range query {
+		keys = append(keys, key)
+	}
+
+	sort.Strings(keys)
+
+	a := make([]string, 0, len(query))
+	for _, key := range keys {
+		a = append(a, url.QueryEscape(key)+"="+url.QueryEscape(query[key]))
+	}
+	s := strings.Join(a, "&")
+
+	expected := method + "\n" + endpoint + "\n" + path + "\n" + s
+
 	actual := generateStringToSign(method, endpoint, path, query)
-	fmt.Println(actual)
+
+	if !reflect.DeepEqual(expected, actual) {
+		t.Errorf("expected: %v, but:%v", expected, actual)
+	}
+}
+
+func TestEncodeQuery(t *testing.T) {
+	query := Query{
+		"Action":           "DescribeInstances",
+		"AccessKeyId":      "YOUR_ACCSESSKEY",
+		"SignatureMethod":  "HmacSHA256",
+		"SignatureVersion": "2",
+		"InstanceId":       "test001",
+		"Description":      "/",
+	}
+
+	expected := url.Values{}
+
+	for key, value := range query {
+		expected[key] = append(expected[key], value)
+	}
+
+	actual := encodeQuery(query)
+
+	if !reflect.DeepEqual(expected, actual) {
+		t.Errorf("expected: %v, but:%v", expected, actual)
+	}
 }

@@ -49,12 +49,9 @@ func (c *Client) NewRequest(ctx context.Context, method string, query Query) (*h
 	signature := generateSignature(c.SecretAccessKey, sign)
 	query["Signature"] = signature
 
-	values := url.Values{}
-	for key, value := range query {
-		values.Set(key, value)
-	}
+	encodedQuery := encodeQuery(query)
 
-	req, err := http.NewRequest(method, u.String(), strings.NewReader(values.Encode()))
+	req, err := http.NewRequest(method, u.String(), strings.NewReader(encodedQuery))
 	if err != nil {
 		return nil, err
 	}
@@ -77,9 +74,16 @@ func generateSignature(key, msg string) string {
 }
 
 func generateStringToSign(method, endpoint, path string, q Query) string {
+	encodedQuery := encodeQuery(q)
+
+	return method + "\n" + endpoint + "\n" + path + "\n" + encodedQuery
+}
+
+func encodeQuery(q Query) string {
 	values := url.Values{}
 	for key, value := range q {
 		values.Set(key, value)
 	}
-	return method + "\n" + endpoint + "\n" + path + "\n" + values.Encode()
+
+	return values.Encode()
 }
