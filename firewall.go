@@ -28,10 +28,11 @@ func (c *Client) CreateSecurityGroup(ctx context.Context, param *CreateSecurityG
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 
 	var body CreateSecurityGroupOutput
 
-	if err := decodeBody(res, &body); err != nil {
+	if err := decodeBody(res.Body, &body); err != nil {
 		return nil, err
 	}
 
@@ -59,10 +60,11 @@ func (c *Client) DeleteSecurityGroup(ctx context.Context, param *DeleteSecurityG
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 
 	var body DeleteSecurityGroupOutput
 
-	if err := decodeBody(res, &body); err != nil {
+	if err := decodeBody(res.Body, &body); err != nil {
 		return nil, err
 	}
 
@@ -89,10 +91,11 @@ func (c *Client) DescribeSecurityGroups(ctx context.Context, param *DescribeSecu
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 
 	var body DescribeSecurityGroupsOutput
 
-	if err := decodeBody(res, &body); err != nil {
+	if err := decodeBody(res.Body, &body); err != nil {
 		return nil, err
 	}
 

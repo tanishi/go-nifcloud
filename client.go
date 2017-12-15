@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/xml"
+	"io"
 	"net/http"
 	"net/url"
 	"sort"
@@ -60,9 +61,8 @@ func (c *Client) NewRequest(ctx context.Context, method string, query Query) (*h
 	return req, nil
 }
 
-func decodeBody(resp *http.Response, out interface{}) error {
-	defer resp.Body.Close()
-	decoder := xml.NewDecoder(resp.Body)
+func decodeBody(body io.Reader, out interface{}) error {
+	decoder := xml.NewDecoder(body)
 	return decoder.Decode(out)
 }
 

@@ -151,3 +151,45 @@ func TestEncodeQuery(t *testing.T) {
 		t.Errorf("expected: %v, but:%v", expected, actual)
 	}
 }
+
+func TestDecodeBody(t *testing.T) {
+	body := `
+		<Person>
+			<Name>
+				<First>John</First>
+				<Last>Doe</Last>
+			</Name>
+			<Gender>Male</Gender>
+			<Age>20</Age>
+		</Person>
+	`
+
+	type NameStruct struct {
+		First string `xml:"First"`
+		Last  string `xml:"Last"`
+	}
+	type Person struct {
+		Name   NameStruct `xml:"Name"`
+		Gender string     `xml:"Gender"`
+		Age    int        `xml:"Age"`
+	}
+
+	expected := Person{
+		Name: NameStruct{
+			First: "John",
+			Last:  "Doe",
+		},
+		Gender: "Male",
+		Age:    20,
+	}
+
+	var actual Person
+
+	if err := decodeBody(strings.NewReader(body), &actual); err != nil {
+		t.Error(err)
+	}
+
+	if !reflect.DeepEqual(expected, actual) {
+		t.Errorf("expected: %v, but:%v", expected, actual)
+	}
+}
