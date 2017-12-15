@@ -2,6 +2,7 @@ package nifcloud
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"testing"
 )
@@ -33,6 +34,9 @@ func TestCreateSecurityGroup(t *testing.T) {
 	if !res.Return {
 		t.Error(res.Return)
 	}
+
+	fmt.Println(res.CreateSecurityGroupResponse)
+	fmt.Println(res)
 }
 
 func TestDeleteSecurityGroup(t *testing.T) {
@@ -61,5 +65,28 @@ func TestDeleteSecurityGroup(t *testing.T) {
 
 	if !res.Return {
 		t.Error(res.Return)
+	}
+}
+
+func TestDescribeSecurityGroups(t *testing.T) {
+	u := os.Getenv("NIFCLOUD_ENDPOINT")
+	accessKey := os.Getenv("NIFCLOUD_ACCESSKEY")
+	secretAccessKey := os.Getenv("NIFCLOUD_SECRET_ACCESSKEY")
+
+	c, err := NewClient(u, accessKey, secretAccessKey)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	params := &DescribeSecurityGroupsInput{}
+
+	_, err = c.DescribeSecurityGroups(ctx, params)
+
+	if err != nil {
+		t.Error(err)
 	}
 }

@@ -69,9 +69,36 @@ func (c *Client) DeleteSecurityGroup(ctx context.Context, param *DeleteSecurityG
 	return &body, nil
 }
 
-func (c *Client) DeregisterInstancesFromSecurityGroup()        {}
-func (c *Client) DescribeSecurityActivities()                  {}
-func (c *Client) DescribeSecurityGroups()                      {}
+func (c *Client) DeregisterInstancesFromSecurityGroup() {}
+func (c *Client) DescribeSecurityActivities()           {}
+
+func (c *Client) DescribeSecurityGroups(ctx context.Context, param *DescribeSecurityGroupsInput) (*DescribeSecurityGroupsOutput, error) {
+	q := Query{
+		"Action":    "DescribeSecurityGroups",
+		"GroupName": param.GroupName,
+	}
+
+	req, err := c.NewRequest(ctx, "POST", q)
+
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.HTTPClient.Do(req)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var body DescribeSecurityGroupsOutput
+
+	if err := decodeBody(res, &body); err != nil {
+		return nil, err
+	}
+
+	return &body, nil
+}
+
 func (c *Client) RegisterInstancesWithSecurityGroup()          {}
 func (c *Client) RevokeSecurityGroupIngress()                  {}
 func (c *Client) UpdateSecurityGroup()                         {}
