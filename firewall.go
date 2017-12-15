@@ -5,8 +5,6 @@ import (
 	"fmt"
 )
 
-func (c *Client) AuthorizeSecurityGroupIngress() {}
-
 func (c *Client) CreateSecurityGroup(ctx context.Context, param *CreateSecurityGroupInput) (*CreateSecurityGroupOutput, error) {
 	if param.GroupName == "" {
 		fmt.Errorf("Validation error: missing GroupName")
@@ -71,9 +69,6 @@ func (c *Client) DeleteSecurityGroup(ctx context.Context, param *DeleteSecurityG
 	return &body, nil
 }
 
-func (c *Client) DeregisterInstancesFromSecurityGroup() {}
-func (c *Client) DescribeSecurityActivities()           {}
-
 func (c *Client) DescribeSecurityGroups(ctx context.Context, param *DescribeSecurityGroupsInput) (*DescribeSecurityGroupsOutput, error) {
 	q := Query{
 		"Action":    "DescribeSecurityGroups",
@@ -101,13 +96,3 @@ func (c *Client) DescribeSecurityGroups(ctx context.Context, param *DescribeSecu
 
 	return &body, nil
 }
-
-func (c *Client) RegisterInstancesWithSecurityGroup()          {}
-func (c *Client) RevokeSecurityGroupIngress()                  {}
-func (c *Client) UpdateSecurityGroup()                         {}
-func (c *Client) UpdateSecurityGroupOption()                   {}
-func (c *Client) DescribeSecurityGroupOption()                 {}
-func (c *Client) NiftyRegisterRoutersWithSecurityGroup()       {}
-func (c *Client) NiftyDeregisterRoutersFromSecurityGroup()     {}
-func (c *Client) NiftyRegisterVpnGatewaysWithSecurityGroup()   {}
-func (c *Client) NiftyDeregisterVpnGatewaysFromSecurityGroup() {}
