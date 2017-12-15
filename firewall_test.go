@@ -2,7 +2,6 @@ package nifcloud
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"testing"
 )
@@ -34,9 +33,6 @@ func TestCreateSecurityGroup(t *testing.T) {
 	if !res.Return {
 		t.Error(res.Return)
 	}
-
-	fmt.Println(res.CreateSecurityGroupResponse)
-	fmt.Println(res)
 }
 
 func TestDeleteSecurityGroup(t *testing.T) {
@@ -84,7 +80,7 @@ func TestDescribeSecurityGroups(t *testing.T) {
 
 	params := &DescribeSecurityGroupsInput{}
 
-	_, err = c.DescribeSecurityGroups(ctx, params)
+	res, err := c.DescribeSecurityGroups(ctx, params)
 
 	if err != nil {
 		t.Error(err)
