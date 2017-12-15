@@ -56,8 +56,6 @@ func (c *Client) NewRequest(ctx context.Context, method string, query Query) (*h
 		return nil, err
 	}
 
-	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-
 	return req, nil
 }
 
