@@ -1,5 +1,21 @@
 package nifcloud
 
+type AuthorizeSecurityGroupIngressInput struct {
+	GroupName   string
+	IPProtocol  string
+	FromPort    int
+	ToPort      int
+	InOut       string
+	IPGroupName string
+	IPRange     string
+	Description string
+}
+
+type AuthorizeSecurityGroupIngressOutput struct {
+	RequestID string `xml:"requestId"`
+	Return    bool   `xml:"return"`
+}
+
 type CreateSecurityGroupInput struct {
 	GroupName        string
 	GroupDescription string
