@@ -3,8 +3,8 @@ package nifcloud
 type AuthorizeSecurityGroupIngressInput struct {
 	GroupName   string
 	IPProtocol  string
-	FromPort    int
-	ToPort      int
+	FromPort    string
+	ToPort      string
 	InOut       string
 	IPGroupName string
 	IPRange     string
