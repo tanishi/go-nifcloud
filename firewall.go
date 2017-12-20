@@ -3,6 +3,7 @@ package nifcloud
 import (
 	"context"
 	"fmt"
+	"strconv"
 )
 
 func (c *Client) AuthorizeSecurityGroupIngress(ctx context.Context, param *AuthorizeSecurityGroupIngressInput) (*AuthorizeSecurityGroupIngressOutput, error) {
@@ -107,6 +108,47 @@ func (c *Client) DeleteSecurityGroup(ctx context.Context, param *DeleteSecurityG
 	defer res.Body.Close()
 
 	var body DeleteSecurityGroupOutput
+
+	if err := decodeBody(res.Body, &body); err != nil {
+		return nil, err
+	}
+
+	return &body, nil
+}
+
+func (c *Client) DeregisterInstancesFromSecurityGroup(ctx context.Context, param *DeregisterInstancesFromSecurityGroupInput) (*DeregisterInstancesFromSecurityGroupOutput, error) {
+	if param.GroupName == "" {
+		return nil, fmt.Errorf("Validation error: missing GroupName")
+	}
+
+	if len(param.InstanceIDs) == 0 {
+		return nil, fmt.Errorf("Validation error: missing InstanceID")
+	}
+
+	q := Query{
+		"Action":    "DeregisterInstancesFromSecurityGroup",
+		"GroupName": param.GroupName,
+	}
+
+	for i, v := range param.InstanceIDs {
+		n := strconv.Itoa(i + 1)
+		q.Set("InstanceId."+n, v)
+	}
+
+	req, err := c.NewRequest(ctx, "POST", q)
+
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.HTTPClient.Do(req)
+
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	var body DeregisterInstancesFromSecurityGroupOutput
 
 	if err := decodeBody(res.Body, &body); err != nil {
 		return nil, err

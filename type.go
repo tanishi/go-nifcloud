@@ -140,3 +140,7 @@ type VPNGatewayNetworkInterface struct {
 }
 
 type Query map[string]string
+
+func (q Query) Set(k, v string) {
+	q[k] = v
+}
