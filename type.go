@@ -36,6 +36,16 @@ type DeleteSecurityGroupOutput struct {
 	Return    bool   `xml:"return"`
 }
 
+type DeregisterInstancesFromSecurityGroupInput struct {
+	GroupName   string
+	InstanceIDs []string
+}
+
+type DeregisterInstancesFromSecurityGroupOutput struct {
+	RequestID    string         `xml:"requestId"`
+	InstancesSet []InstanceItem `xml:instancesSet>item`
+}
+
 type DescribeSecurityGroupsInput struct {
 	GroupName   string
 	FilterName  string
