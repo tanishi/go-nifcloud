@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/xml"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -30,6 +31,14 @@ func NewClient(u, accessKeyID, secretAccessKey string) (*Client, error) {
 
 	if err != nil {
 		return nil, err
+	}
+
+	if accessKeyID == "" {
+		return nil, fmt.Errorf("missing accessKeyID")
+	}
+
+	if secretAccessKey == "" {
+		return nil, fmt.Errorf("missing secretAccessKey")
 	}
 
 	return &Client{
