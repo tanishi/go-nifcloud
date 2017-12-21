@@ -2,7 +2,6 @@ package nifcloud
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"testing"
 )
@@ -115,13 +114,11 @@ func TestDeregisterInstancesFromSecurityGroup(t *testing.T) {
 		InstanceIDs: []string{"onishiTest"},
 	}
 
-	res, err := c.DeregisterInstancesFromSecurityGroup(ctx, params)
+	_, err = c.DeregisterInstancesFromSecurityGroup(ctx, params)
 
 	if err != nil {
 		t.Error(err)
 	}
-
-	fmt.Println(res)
 }
 
 func TestDescribeSecurityGroups(t *testing.T) {
