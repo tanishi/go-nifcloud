@@ -46,6 +46,20 @@ type DeregisterInstancesFromSecurityGroupOutput struct {
 	InstancesSet []InstanceItem `xml:instancesSet>item`
 }
 
+type DescribeSecurityActivitiesInput struct {
+	GroupName    string
+	ActivityDate string
+	Range        bool
+	StartNumber  string
+	EndNumber    string
+}
+
+type DescribeSecurityActivitiesOutput struct {
+	RequestID string `xml:"requestId"`
+	GroupName string `xml:"groupName"`
+	Log       string `xml:"log"`
+}
+
 type DescribeSecurityGroupsInput struct {
 	GroupName   string
 	FilterName  string
