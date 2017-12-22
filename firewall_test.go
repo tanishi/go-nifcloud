@@ -121,6 +121,31 @@ func TestDeregisterInstancesFromSecurityGroup(t *testing.T) {
 	}
 }
 
+func TestDescribeSecurityActiviries(t *testing.T) {
+	u := os.Getenv("NIFCLOUD_ENDPOINT")
+	accessKey := os.Getenv("NIFCLOUD_ACCESSKEY")
+	secretAccessKey := os.Getenv("NIFCLOUD_SECRET_ACCESSKEY")
+
+	c, err := NewClient(u, accessKey, secretAccessKey)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	params := &DescribeSecurityActivitiesInput{
+		GroupName: "tanishi",
+	}
+
+	_, err = c.DescribeSecurityActivities(ctx, params)
+
+	if err != nil {
+		t.Error(err)
+	}
+}
+
 func TestDescribeSecurityGroups(t *testing.T) {
 	u := os.Getenv("NIFCLOUD_ENDPOINT")
 	accessKey := os.Getenv("NIFCLOUD_ACCESSKEY")

@@ -157,6 +157,38 @@ func (c *Client) DeregisterInstancesFromSecurityGroup(ctx context.Context, param
 	return &body, nil
 }
 
+func (c *Client) DescribeSecurityActivities(ctx context.Context, param *DescribeSecurityActivitiesInput) (*DescribeSecurityActivitiesOutput, error) {
+	q := Query{
+		"Action":            "DescribeSecurityActivities",
+		"GroupName":         param.GroupName,
+		"ActivityDate":      param.ActivityDate,
+		"Range.All":         param.Range,
+		"Range.StartNumber": param.StartNumber,
+		"Range.EndNumber":   param.EndNumber,
+	}
+
+	req, err := c.NewRequest(ctx, "POST", q)
+
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.HTTPClient.Do(req)
+
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	var body DescribeSecurityActivitiesOutput
+
+	if err := decodeBody(res.Body, &body); err != nil {
+		return nil, err
+	}
+
+	return &body, nil
+}
+
 func (c *Client) DescribeSecurityGroups(ctx context.Context, param *DescribeSecurityGroupsInput) (*DescribeSecurityGroupsOutput, error) {
 	q := Query{
 		"Action":    "DescribeSecurityGroups",
