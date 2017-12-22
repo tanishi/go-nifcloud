@@ -49,7 +49,7 @@ type DeregisterInstancesFromSecurityGroupOutput struct {
 type DescribeSecurityActivitiesInput struct {
 	GroupName    string
 	ActivityDate string
-	Range        bool
+	Range        string
 	StartNumber  string
 	EndNumber    string
 }
