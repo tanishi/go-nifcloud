@@ -198,3 +198,34 @@ func TestRegisterInstancesWithSecurityGroup(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestRevokeSecurityGroupIngress(t *testing.T) {
+	u := os.Getenv("NIFCLOUD_ENDPOINT")
+	accessKey := os.Getenv("NIFCLOUD_ACCESSKEY")
+	secretAccessKey := os.Getenv("NIFCLOUD_SECRET_ACCESSKEY")
+
+	c, err := NewClient(u, accessKey, secretAccessKey)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	params := &RevokeSecurityGroupIngressInput{
+		GroupName: "tanishi",
+		IPPermissions: []IPPermission{
+			IPPermission{
+				IPProtocol: "HTTP",
+				IPRanges:   []string{"0.0.0.0/0"},
+			},
+		},
+	}
+
+	_, err = c.RevokeSecurityGroupIngress(ctx, params)
+
+	if err != nil {
+		t.Error(err)
+	}
+}
