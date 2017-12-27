@@ -157,6 +157,16 @@ type VPNGatewayNetworkInterface struct {
 	IPAddress         string `xml:"ipAddredd"`
 }
 
+type RegisterInstancesWithSecurityGroupInput struct {
+	GroupName   string
+	InstanceIDs []string
+}
+
+type RegisterInstancesWithSecurityGroupOutput struct {
+	RequestID    string         `xml:"requestId"`
+	InstancesSet []InstanceItem `xml:instancesSet>item`
+}
+
 type Query map[string]string
 
 func (q Query) Set(k, v string) {
