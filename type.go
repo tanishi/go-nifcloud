@@ -1,13 +1,17 @@
 package nifcloud
 
 type AuthorizeSecurityGroupIngressInput struct {
-	GroupName   string
+	GroupName     string
+	IPPermissions []IPPermission
+}
+
+type IPPermission struct {
 	IPProtocol  string
 	FromPort    string
 	ToPort      string
 	InOut       string
-	IPGroupName string
-	IPRange     string
+	Groups      []string
+	IPRanges    []string
 	Description string
 }
 

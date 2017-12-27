@@ -21,9 +21,13 @@ func TestAuthorizeSecurityGroupIngress(t *testing.T) {
 	defer cancel()
 
 	params := &AuthorizeSecurityGroupIngressInput{
-		GroupName:  "tanishi",
-		IPProtocol: "HTTP",
-		IPRange:    "0.0.0.0/0",
+		GroupName: "tanishi",
+		IPPermissions: []IPPermission{
+			IPPermission{
+				IPProtocol: "HTTP",
+				IPRanges:   []string{"0.0.0.0/0"},
+			},
+		},
 	}
 
 	res, err := c.AuthorizeSecurityGroupIngress(ctx, params)

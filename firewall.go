@@ -11,21 +11,38 @@ func (c *Client) AuthorizeSecurityGroupIngress(ctx context.Context, param *Autho
 		return nil, fmt.Errorf("Validation error: missing GroupName")
 	}
 
-	if param.IPProtocol == "TCP" || param.IPProtocol == "UDP" {
-		if param.FromPort == "" {
-			return nil, fmt.Errorf("Validation error: missing FromPort")
-		}
-	}
-
-	if param.IPGroupName == "" && param.IPRange == "" {
-		return nil, fmt.Errorf("Validation error: missing IPGroupName or IPRange")
-	}
-
 	q := Query{
-		"Action":                            "AuthorizeSecurityGroupIngress",
-		"GroupName":                         param.GroupName,
-		"IpPermissions.1.IpProtocol":        param.IPProtocol,
-		"IpPermissions.1.IpRanges.1.CidrIp": param.IPRange,
+		"Action":    "AuthorizeSecurityGroupIngress",
+		"GroupName": param.GroupName,
+	}
+
+	for i, v := range param.IPPermissions {
+		if len(v.Groups) == 0 && len(v.IPRanges) == 0 {
+			return nil, fmt.Errorf("Validation error: missing IPGroupName or IPRange")
+		}
+
+		if v.IPProtocol == "TCP" || v.IPProtocol == "UDP" {
+			if v.FromPort == "" {
+				return nil, fmt.Errorf("Validation error: missing FromPort")
+			}
+		}
+
+		n := strconv.Itoa(i + 1)
+		q.Set("IpPermissions."+n+".IpProtocol", v.IPProtocol)
+		q.Set("IpPermissions."+n+".FromPort", v.FromPort)
+		q.Set("IpPermissions."+n+".ToPort", v.ToPort)
+		q.Set("IpPermissions."+n+".InOut", v.InOut)
+		q.Set("IpPermissions."+n+".Description", v.Description)
+
+		for j, g := range v.Groups {
+			m := strconv.Itoa(j + 1)
+			q.Set("IpPermissions."+n+".Groups."+m+".GroupName", g)
+		}
+
+		for j, ip := range v.IPRanges {
+			m := strconv.Itoa(j + 1)
+			q.Set("IpPermissions."+n+".IpRanges."+m+".CidrIp", ip)
+		}
 	}
 
 	req, err := c.NewRequest(ctx, "POST", q)
