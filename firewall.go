@@ -233,3 +233,36 @@ func (c *Client) DescribeSecurityGroups(ctx context.Context, param *DescribeSecu
 
 	return &body, nil
 }
+
+func (c *Client) RegisterInstancesWithSecurityGroup(ctx context.Context, param *RegisterInstancesWithSecurityGroupInput) (*RegisterInstancesWithSecurityGroupOutput, error) {
+	q := Query{
+		"Action":    "RegisterInstancesWithSecurityGroup",
+		"GroupName": param.GroupName,
+	}
+
+	for i, v := range param.InstanceIDs {
+		n := strconv.Itoa(i + 1)
+		q.Set("InstanceId."+n, v)
+	}
+
+	req, err := c.NewRequest(ctx, "POST", q)
+
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.HTTPClient.Do(req)
+
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	var body RegisterInstancesWithSecurityGroupOutput
+
+	if err := decodeBody(res.Body, &body); err != nil {
+		return nil, err
+	}
+
+	return &body, nil
+}

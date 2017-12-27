@@ -187,7 +187,10 @@ func TestRegisterInstancesWithSecurityGroup(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	params := &RegisterInstancesWithSecurityGroupInput{}
+	params := &RegisterInstancesWithSecurityGroupInput{
+		GroupName:   "tanishi",
+		InstanceIDs: []string{"onishiTest"},
+	}
 
 	_, err = c.RegisterInstancesWithSecurityGroup(ctx, params)
 
