@@ -167,6 +167,16 @@ type RegisterInstancesWithSecurityGroupOutput struct {
 	InstancesSet []InstanceItem `xml:instancesSet>item`
 }
 
+type RevokeSecurityGroupIngressInput struct {
+	GroupName     string
+	IPPermissions []IPPermission
+}
+
+type RevokeSecurityGroupIngressOutput struct {
+	RequestID string `xml:"requestId"`
+	Return    bool   `xml:"return"`
+}
+
 type Query map[string]string
 
 func (q Query) Set(k, v string) {
