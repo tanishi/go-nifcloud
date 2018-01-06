@@ -223,9 +223,13 @@ func TestRevokeSecurityGroupIngress(t *testing.T) {
 		},
 	}
 
-	_, err = c.RevokeSecurityGroupIngress(ctx, params)
+	res, err := c.RevokeSecurityGroupIngress(ctx, params)
 
 	if err != nil {
 		t.Error(err)
+	}
+
+	if !res.Return {
+		t.Errorf("Request Failed")
 	}
 }

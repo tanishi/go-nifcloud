@@ -266,3 +266,64 @@ func (c *Client) RegisterInstancesWithSecurityGroup(ctx context.Context, param *
 
 	return &body, nil
 }
+
+func (c *Client) RevokeSecurityGroupIngress(ctx context.Context, param *RevokeSecurityGroupIngressInput) (*RevokeSecurityGroupIngressOutput, error) {
+	if param.GroupName == "" {
+		return nil, fmt.Errorf("Validation error: missing GroupName")
+	}
+
+	q := Query{
+		"Action":    "RevokeSecurityGroupIngress",
+		"GroupName": param.GroupName,
+	}
+
+	for i, v := range param.IPPermissions {
+		if len(v.Groups) == 0 && len(v.IPRanges) == 0 {
+			return nil, fmt.Errorf("Validation error: missing IPGroupName or IPRange")
+		}
+
+		if v.IPProtocol == "TCP" || v.IPProtocol == "UDP" {
+			if v.FromPort == "" {
+				return nil, fmt.Errorf("Validation error: missing FromPort")
+			}
+		}
+
+		n := strconv.Itoa(i + 1)
+		q.Set("IpPermissions."+n+".IpProtocol", v.IPProtocol)
+		q.Set("IpPermissions."+n+".FromPort", v.FromPort)
+		q.Set("IpPermissions."+n+".ToPort", v.ToPort)
+		q.Set("IpPermissions."+n+".InOut", v.InOut)
+		q.Set("IpPermissions."+n+".Description", v.Description)
+
+		for j, g := range v.Groups {
+			m := strconv.Itoa(j + 1)
+			q.Set("IpPermissions."+n+".Groups."+m+".GroupName", g)
+		}
+
+		for j, ip := range v.IPRanges {
+			m := strconv.Itoa(j + 1)
+			q.Set("IpPermissions."+n+".IpRanges."+m+".CidrIp", ip)
+		}
+	}
+
+	req, err := c.NewRequest(ctx, "POST", q)
+
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.HTTPClient.Do(req)
+
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	var body RevokeSecurityGroupIngressOutput
+
+	if err := decodeBody(res.Body, &body); err != nil {
+		return nil, err
+	}
+
+	return &body, nil
+}
