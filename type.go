@@ -177,6 +177,18 @@ type RevokeSecurityGroupIngressOutput struct {
 	Return    bool   `xml:"return"`
 }
 
+type UpdateSecurityGroupInput struct {
+	GroupName             string
+	GroupNameUpdate       string
+	GroupDescriptionUpdat string
+	GroupLogLimitUpdate   string
+}
+
+type UpdateSecurityGroupOutput struct {
+	RequestID string `xml:"requestId"`
+	Return    bool   `xml:"return"`
+}
+
 type Query map[string]string
 
 func (q Query) Set(k, v string) {
