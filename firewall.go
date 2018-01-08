@@ -327,3 +327,38 @@ func (c *Client) RevokeSecurityGroupIngress(ctx context.Context, param *RevokeSe
 
 	return &body, nil
 }
+
+func (c *Client) UpdateSecurityGroup(ctx context.Context, param *UpdateSecurityGroupInput) (*UpdateSecurityGroupOutput, error) {
+	if param.GroupName == "" {
+		return nil, fmt.Errorf("Validation error: missing GroupName")
+	}
+
+	q := Query{
+		"Action":                 "UpdateSecurityGroup",
+		"GroupName":              param.GroupName,
+		"GroupNameUpdate":        param.GroupNameUpdate,
+		"GroupDescriptionUpdate": param.GroupDescriptionUpdate,
+		"GroupLogLimitUpdate":    param.GroupLogLimitUpdate,
+	}
+
+	req, err := c.NewRequest(ctx, "POST", q)
+
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.HTTPClient.Do(req)
+
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	var body UpdateSecurityGroupOutput
+
+	if err := decodeBody(res.Body, &body); err != nil {
+		return nil, err
+	}
+
+	return &body, nil
+}
