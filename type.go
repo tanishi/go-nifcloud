@@ -178,10 +178,10 @@ type RevokeSecurityGroupIngressOutput struct {
 }
 
 type UpdateSecurityGroupInput struct {
-	GroupName             string
-	GroupNameUpdate       string
-	GroupDescriptionUpdat string
-	GroupLogLimitUpdate   string
+	GroupName              string
+	GroupNameUpdate        string
+	GroupDescriptionUpdate string
+	GroupLogLimitUpdate    string
 }
 
 type UpdateSecurityGroupOutput struct {
