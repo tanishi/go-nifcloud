@@ -233,3 +233,32 @@ func TestRevokeSecurityGroupIngress(t *testing.T) {
 		t.Errorf("Request Failed")
 	}
 }
+
+func TestUpdateSecurityGroup(t *testing.T) {
+	u := os.Getenv("NIFCLOUD_ENDPOINT")
+	accessKey := os.Getenv("NIFCLOUD_ACCESSKEY")
+	secretAccessKey := os.Getenv("NIFCLOUD_SECRET_ACCESSKEY")
+
+	c, err := NewClient(u, accessKey, secretAccessKey)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	params := &UpdateSecurityGroupInput{
+		GroupName: "tanishi",
+	}
+
+	res, err := c.UpdateSecurityGroup(ctx, params)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if !res.Return {
+		t.Errorf("Request Failed")
+	}
+}
