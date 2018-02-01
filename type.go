@@ -189,6 +189,122 @@ type UpdateSecurityGroupOutput struct {
 	Return    bool   `xml:"return"`
 }
 
+type DescribeInstancesInput struct {
+	InstanceIDs []string
+	Tenancies   []string
+}
+
+type DescribeInstancesOutput struct {
+	RequestID    string          `xml:"requestId"`
+	GroupSet     []Group         `xml:"groupSet>item"`
+	InstancesSet []InstancesItem `xml:"reservationSet>item>instancesSet>item"`
+}
+
+type Group struct {
+	GroupID string `xml:"groupId"`
+}
+
+type InstancesItem struct {
+	InstanceID                string                 `xml:"instanceId"`
+	InstanceUniqueID          string                 `xml:"instanceUniqueId"`
+	ImageID                   string                 `xml:"imageId"`
+	InstanceState             InstanceStateStruct    `xml:"instanceState"`
+	PrivateDNSName            string                 `xml:"privateDnsName"`
+	DNSName                   string                 `xml:"dnsName"`
+	KeyName                   string                 `xml:"keyName"`
+	InstanceType              string                 `xml:"instanceType"`
+	LaunchTime                string                 `xml:"launchTime"`
+	AvailabilityZone          string                 `xml:"placement>availabilityZone"`
+	Platform                  string                 `xml:"platform"`
+	ImageName                 string                 `xml:"imageName"`
+	Monitoring                string                 `xml:"monitoring>state"`
+	PrivateIPAddress          string                 `xml:"privateIpAddress"`
+	IPAddress                 string                 `xml:"IpAddress"`
+	PrivateIPAddressv6        string                 `xml:"privateIpAddressV6"`
+	IPAddressv6               string                 `xml:"IpAddressV6"`
+	Architecture              string                 `xml:"architecture"`
+	RootDeviceType            string                 `xml:"rootDeviceType"`
+	BlockDeviceMapping        string                 `xml:"blockDeviceMapping>item"`
+	AccountingType            string                 `xml:"accountingType"`
+	NextMonthAccountingType   string                 `xml:"nextMonthAccountingType"`
+	LoadBalancing             []LoadBalancer         `xml:"loadBalancing>item"`
+	State                     string                 `xml:"State"`
+	CopyInfo                  string                 `xml:"copyInfo"`
+	AutoScaling               AutoScalingStruct      `xml:"autoscaling>item"`
+	IPType                    string                 `xml:"ipType"`
+	NifryPrivateIPType        string                 `xml:"niftyPrivateIpType"`
+	HotAdd                    string                 `xml:"hotAdd"`
+	NiftySnapShotting         string                 `xml:"niftySnapshotting>item>state"`
+	NiftyPrivateNetworkType   string                 `xml:"niftyPrivateNetworkType"`
+	Tenancy                   string                 `xml:"tenancy"`
+	NetworkInterfaceSet       []NetworkInterfaceItem `xml:"networkInterfaceSet>item"`
+	NiftyElasticLoadBalancing string                 `xml:"niftyElasticLoadBalancing>item"`
+}
+
+type InstanceStateStruct struct {
+	Code string `xml:"code"`
+	Name string `xml:"name"`
+}
+
+type BlockDeviceMapping struct {
+	DeviceName string    `xml:"deviceName"`
+	EBS        EBSStruct `xml:"ebs"`
+}
+
+type EBSStruct struct {
+	VolumeID            string `xml:"volumeId"`
+	Status              string `xml:"status"`
+	AttachTime          string `xml:"attachTime"`
+	DeleteOnTermination bool   `xml:"deleteOnTermination"`
+}
+
+type LoadBalancer struct {
+	LoadBalancerName string `xml:"loadBalancerName"`
+	LoadBalancerPort string `xml:"loadBalancerPort"`
+	InstancePort     string `xml:"instancePort"`
+}
+
+type AutoScalingStruct struct {
+	AutoScalingGroupName string `xml:"autoScalingGroupName"`
+	ExpireTime           string `xml:"expireTime"`
+}
+
+type NetworkInterfaceItem struct {
+	NetworkInterfaceID string            `xml:"networkInterfaceId"`
+	NiftyNetworkID     string            `xml:"niftyNetworkId"`
+	NiftyNeteorkName   string            `xml:"niftyNetworkName"`
+	Status             string            `xml:"status"`
+	MacAddress         string            `xml:"macAddress"`
+	PrivateIPAddress   string            `xml:"privateIpAddress"`
+	PrivateIPAddressv6 string            `xml:"pruvateIpAddressV6"`
+	SourceDestCheck    string            `xml:"sourceDestCheck"`
+	Attachment         AttachmentStruct  `xml:"attachment"`
+	Association        AssociationStruct `xml:"association"`
+}
+
+type AttachmentStruct struct {
+	AttachmentID        string `xml:"attachmentId"`
+	DeviceIndex         string `xml:"deviceIndex"`
+	Status              string `xml:"status"`
+	AttachTime          string `xml:"attachTime"`
+	DeleteOnTermination string `xml:"deleteOnTermination"`
+}
+
+type AssociationStruct struct {
+	PublicIP        string `xml:"publicIp"`
+	PublicIPv6      string `xml:"publicIpV6"`
+	PublicDNSName   string `xml:"publicDnsName"`
+	PublicDNSNamev6 string `xml:"publicDnsNameV6"`
+}
+
+type NiftyElasticLoadBalancingItem struct {
+	ElasticLoadBalancerID   string `xml:"elasticLoadBalancerId"`
+	ElasticLoadBalancerName string `xml:"elasticLoadBalancerName"`
+	Protocol                string `xml:"protocol"`
+	ElasticLoadBalancerPort string `xml:"elasticLoadBalancerPort"`
+	InstancePort            string `xml:"instancePort"`
+}
+
 type Query map[string]string
 
 func (q Query) Set(k, v string) {

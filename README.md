@@ -4,7 +4,7 @@
 
 - Server
   - [ ] DescribeInstanceAttribute
-  - [ ] DescribeInstances
+  - [x] DescribeInstances
   - [ ] ModifyInstanceAttribute
   - [ ] RebootInstances
   - [ ] RunInstances
