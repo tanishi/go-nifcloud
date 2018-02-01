@@ -78,14 +78,14 @@
   - [ ] NiftyReplaceElasticLoadBalancerListenerSSLCertificate
 
 - Firewall
-  - [ ] AuthorizeSecurityGroupIngress
-  - [ ] CreateSecurityGroup
-  - [ ] DeleteSecurityGroup
-  - [ ] DeregisterInstancesFromSecurityGroup
-  - [ ] DescribeSecurityActivities
-  - [ ] DescribeSecurityGroups
-  - [ ] RegisterInstancesWithSecurityGroup
-  - [ ] RevokeSecurityGroupIngress
+  - [x] AuthorizeSecurityGroupIngress
+  - [x] CreateSecurityGroup
+  - [x] DeleteSecurityGroup
+  - [x] DeregisterInstancesFromSecurityGroup
+  - [x] DescribeSecurityActivities
+  - [x] DescribeSecurityGroups
+  - [x] RegisterInstancesWithSecurityGroup
+  - [x] RevokeSecurityGroupIngress
   - [ ] UpdateSecurityGroup
   - [ ] UpdateSecurityGroupOption
   - [ ] DescribeSecurityGroupOption
