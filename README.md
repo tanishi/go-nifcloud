@@ -83,7 +83,7 @@
   - [ ] DeleteSecurityGroup
   - [ ] DeregisterInstancesFromSecurityGroup
   - [ ] DescribeSecurityActivities
-  - [ ] AuthorizeSecurityGroupIngress
+  - [ ] DescribeSecurityGroups
   - [ ] RegisterInstancesWithSecurityGroup
   - [ ] RevokeSecurityGroupIngress
   - [ ] UpdateSecurityGroup
