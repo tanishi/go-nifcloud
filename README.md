@@ -2,15 +2,113 @@
 
 ## Feature
 
-- [ ] func (c *Client) DeregisterInstancesFromSecurityGroup()        {}
-- [ ] func (c *Client) DescribeSecurityActivities()                  {}
-- [ ] func (c *Client) AuthorizeSecurityGroupIngress()               {}
-- [ ] func (c *Client) RegisterInstancesWithSecurityGroup()          {}
-- [ ] func (c *Client) RevokeSecurityGroupIngress()                  {}
-- [ ] func (c *Client) UpdateSecurityGroup()                         {}
-- [ ] func (c *Client) UpdateSecurityGroupOption()                   {}
-- [ ] func (c *Client) DescribeSecurityGroupOption()                 {}
-- [ ] func (c *Client) NiftyRegisterRoutersWithSecurityGroup()       {}
-- [ ] func (c *Client) NiftyDeregisterRoutersFromSecurityGroup()     {}
-- [ ] func (c *Client) NiftyRegisterVpnGatewaysWithSecurityGroup()   {}
-- [ ] func (c *Client) NiftyDeregisterVpnGatewaysFromSecurityGroup() {}
+- Server
+  - [ ] DescribeInstanceAttribute
+  - [ ] DescribeInstances
+  - [ ] ModifyInstanceAttribute
+  - [ ] RebootInstances
+  - [ ] RunInstances
+  - [ ] StartInstances
+  - [ ] StopInstances
+  - [ ] TerminateInstances
+  - [ ] CopyInstances
+  - [ ] CancelCopyInstances
+  - [ ] ImportInstance
+  - [ ] NiftyCreateInstanceSnapshot
+  - [ ] NiftyModifyInstanceSnapshotAttribute
+  - [ ] NiftyDescribeInstanceSnapshots
+  - [ ] NiftyDeleteInstanceSnapshot
+  - [ ] NiftyRestoreInstanceSnapshot
+  - [ ] NiftyRetryImportInstance
+  - [ ] NiftyUpdateInstanceNetworkInterfaces
+
+- Disk
+  - [ ] AttachVolume
+  - [ ] CreateVolume
+  - [ ] DeleteVolume
+  - [ ] DescribeVolumes
+  - [ ] DetachVolume
+  - [ ] ModifyVolumeAttribute
+
+- Network/Security
+  - [ ] CreateKeyPair
+  - [ ] DeleteKeyPair
+  - [ ] DescribeKeyPairs
+  - [ ] NiftyModifyKeyPairAttribute
+  - [ ] ImportKeyPair
+
+- OS Image
+  - [ ] DescribeImages
+  - [ ] CreateImage
+  - [ ] DeleteImage
+  - [ ] ModifyImageAttribute
+  - [ ] NiftyAssociateImage
+
+- Load Balancer
+  - [ ] ConfigureHealthCheck
+  - [ ] CreateLoadBalancer
+  - [ ] DeleteLoadBalancer
+  - [ ] DeregisterInstancesFromLoadBalancer
+  - [ ] DescribeInstanceHealth
+  - [ ] DescribeLoadBalancers
+  - [ ] RegisterInstancesWithLoadBalancer
+  - [ ] RegisterPortWithLoadBalancer
+  - [ ] SetFilterForLoadBalancer
+  - [ ] UpdateLoadBalancer
+  - [ ] UpdateLoadBalancerOption
+  - [ ] SetLoadBalancerListenerSSLCertificate
+  - [ ] UnsetLoadBalancerListenerSSLCertificate
+  - [ ] ClearLoadBalancerSession
+  - [ ] NiftySetLoadBalancerSSLPoliciesOfListener
+  - [ ] NiftyUnSetLoadBalancerSSLPoliciesOfListener
+  - [ ] NiftyDescribeLoadBalancerSSLPolicies
+
+- Multi Load Balancer
+  - [ ] NiftyConfigureElasticLoadBalancerHealthCheck
+  - [ ] NiftyCreateElasticLoadBalancer
+  - [ ] NiftyDeleteElasticLoadBalancer
+  - [ ] NiftyDeregisterInstancesFromElasticLoadBalancer
+  - [ ] NiftyDescribeInstanceElasticLoadBalancerHealth
+  - [ ] NiftyDescribeElasticLoadBalancers
+  - [ ] NiftyModifyElasticLoadBalancerAttributes
+  - [ ] NiftyRegisterInstancesWithElasticLoadBalancer
+  - [ ] NiftyRegisterPortWithElasticLoadBalancer
+  - [ ] NiftyUpdateElasticLoadBalancer
+  - [ ] NiftyReplaceElasticLoadBalancerLatestVersion
+  - [ ] NiftyReplaceElasticLoadBalancerListenerSSLCertificate
+
+- Firewall
+  - [ ] AuthorizeSecurityGroupIngress
+  - [ ] CreateSecurityGroup
+  - [ ] DeleteSecurityGroup
+  - [ ] DeregisterInstancesFromSecurityGroup
+  - [ ] DescribeSecurityActivities
+  - [ ] AuthorizeSecurityGroupIngress
+  - [ ] RegisterInstancesWithSecurityGroup
+  - [ ] RevokeSecurityGroupIngress
+  - [ ] UpdateSecurityGroup
+  - [ ] UpdateSecurityGroupOption
+  - [ ] DescribeSecurityGroupOption
+  - [ ] NiftyRegisterRoutersWithSecurityGroup
+  - [ ] NiftyDeregisterRoutersFromSecurityGroup
+  - [ ] NiftyRegisterVpnGatewaysWithSecurityGroup
+  - [ ] NiftyDeregisterVpnGatewaysFromSecurityGroup
+
+- SSL Certification
+- Usage Situation
+- Upload
+- Address
+- Nic
+- Auto Scale
+- Alarm
+- Private LAN
+- Router
+- Route Table
+- Nat Table
+- DHCP
+- Web Proxy
+- VPN Gateway
+- Customer Gateway
+- VPN Connection
+- Server Separate
+- Other
