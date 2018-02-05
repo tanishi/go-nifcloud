@@ -65,9 +65,9 @@ type DescribeSecurityActivitiesOutput struct {
 }
 
 type DescribeSecurityGroupsInput struct {
-	GroupName   string
-	FilterName  string
-	FilterValue string
+	GroupNames   []string
+	FilterNames  []string
+	FilterValues []string
 }
 
 type DescribeSecurityGroupsOutput struct {
