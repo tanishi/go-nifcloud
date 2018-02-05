@@ -208,8 +208,22 @@ func (c *Client) DescribeSecurityActivities(ctx context.Context, param *Describe
 
 func (c *Client) DescribeSecurityGroups(ctx context.Context, param *DescribeSecurityGroupsInput) (*DescribeSecurityGroupsOutput, error) {
 	q := Query{
-		"Action":    "DescribeSecurityGroups",
-		"GroupName": param.GroupName,
+		"Action": "DescribeSecurityGroups",
+	}
+
+	for i, v := range param.GroupNames {
+		n := strconv.Itoa(i + 1)
+		q.Set("GroupName."+n, v)
+	}
+
+	for i, name := range param.FilterNames {
+		n := strconv.Itoa(i + 1)
+		q.Set("Filter."+n+".Name", name)
+
+		for j, v := range param.GroupNames {
+			m := strconv.Itoa(j + 1)
+			q.Set("Filter."+n+".Value."+m, v)
+		}
 	}
 
 	req, err := c.NewRequest(ctx, "POST", q)
