@@ -246,7 +246,7 @@ type InstanceStateStruct struct {
 	Name string `xml:"name"`
 }
 
-type BlockDeviceMapping struct {
+type BlockDeviceMappingItem struct {
 	DeviceName string    `xml:"deviceName"`
 	EBS        EBSStruct `xml:"ebs"`
 }
@@ -303,6 +303,31 @@ type NiftyElasticLoadBalancingItem struct {
 	Protocol                string `xml:"protocol"`
 	ElasticLoadBalancerPort string `xml:"elasticLoadBalancerPort"`
 	InstancePort            string `xml:"instancePort"`
+}
+
+type DescribeInstanceAttributeInput struct {
+	InstanceID string
+	Attribute  string
+}
+
+type DescribeInstanceAttributeOutput struct {
+	RequestID                 string                          `xml:"requestId"`
+	InstanceID                string                          `xml:"instanceId"`
+	InstanceUniqueID          string                          `xml:"instanceUniqueId"`
+	InstanceType              string                          `xml:"instanceType>value"`
+	DisableAPITermination     bool                            `xml:"disableApiTermination>value"`
+	BlockDeviceMapping        []BlockDeviceMappingItem        `xml:"blockDeviceMapping>item"`
+	AccountingType            string                          `xml:"accountingType>value"`
+	NextMonthAccountingType   string                          `xml:"nextMonthAccountingType>value"`
+	LoadBalancing             []LoadBalancer                  `xml:"loadBalancing>item"`
+	CopyInfo                  string                          `xml:"copyInfo>value"`
+	AutoScaling               []AutoScalingStruct             `xml:"autoscaling>item"`
+	IPType                    string                          `xml:"ipType"`
+	NifryPrivateIPType        string                          `xml:"niftyPrivateIpType"`
+	GroupID                   string                          `xml:"groupId>value"`
+	Description               string                          `xml:"desctiption>value"`
+	NetworkInterfaceSet       []NetworkInterfaceItem          `xml:"networkInterfaceSet>item"`
+	NiftyElasticLoadBalancing []NiftyElasticLoadBalancingItem `xml:"niftyElasticLoadBalancing>item"`
 }
 
 type Query map[string]string
