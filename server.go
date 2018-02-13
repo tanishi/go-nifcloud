@@ -75,3 +75,30 @@ func (c *Client) DescribeInstances(ctx context.Context, param *DescribeInstances
 
 	return &body, nil
 }
+
+func (c *Client) RunInstances(ctx context.Context, param *RunInstancesInput) (*RunInstancesOutput, error) {
+	q := Query{
+		"Action": "RunInstances",
+	}
+
+	req, err := c.NewRequest(ctx, "POST", q)
+
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.HTTPClient.Do(req)
+
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	var body RunInstancesOutput
+
+	if err := decodeBody(res.Body, &body); err != nil {
+		return nil, err
+	}
+
+	return &body, nil
+}

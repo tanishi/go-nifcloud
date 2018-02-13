@@ -330,6 +330,54 @@ type DescribeInstanceAttributeOutput struct {
 	NiftyElasticLoadBalancing []NiftyElasticLoadBalancingItem `xml:"niftyElasticLoadBalancing>item"`
 }
 
+type RunInstancesInput struct {
+	ImageID               string
+	KeyName               string
+	SecurityGroups        []string
+	UserData              string
+	UserDataEncoding      string
+	InstanceType          string
+	AvailabilityZone      string
+	DisableAPITermination bool
+	AccountingType        string
+	InstanceID            string
+	Admin                 string
+	Password              string
+	IPType                string
+	PublicIP              string
+	Agreement             bool
+	Description           string
+	NetworkIDs            []string
+	NetworkNames          []string
+	NetworkIPAddress      string
+	Licenses              []License
+}
+
+type License struct {
+	Name string
+	Num  string
+}
+
+type RunInstancesOutput struct {
+	RequestID string `xml:"requestId"`
+	GroupID string`xml:"groupSet>item"`
+	`xml:""`
+	`xml:""`
+	`xml:""`
+	`xml:""`
+	`xml:""`
+	`xml:""`
+	`xml:""`
+	`xml:""`
+	`xml:""`
+	`xml:""`
+	`xml:""`
+	`xml:""`
+	`xml:""`
+	`xml:""`
+	`xml:""`
+}
+
 type Query map[string]string
 
 func (q Query) Set(k, v string) {
