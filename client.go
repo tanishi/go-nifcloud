@@ -19,7 +19,22 @@ const (
 	SignatureMethod  = "HmacSHA256"
 )
 
+type Nifcloud interface {
+	AuthorizeSecurityGroupIngress(context.Context, *AuthorizeSecurityGroupIngressInput) (*AuthorizeSecurityGroupIngressOutput, error)
+	CreateSecurityGroup(context.Context, *CreateSecurityGroupInput) (*CreateSecurityGroupOutput, error)
+	DeleteSecurityGroup(context.Context, *DeleteSecurityGroupInput) (*DeleteSecurityGroupOutput, error)
+	DeregisterInstancesFromSecurityGroup(context.Context, *DeregisterInstancesFromSecurityGroupInput) (*DeregisterInstancesFromSecurityGroupOutput, error)
+	DescribeSecurityActivities(context.Context, *DescribeSecurityActivitiesInput) (*DescribeSecurityActivitiesOutput, error)
+	DescribeSecurityGroups(context.Context, *DescribeSecurityGroupsInput) (*DescribeSecurityGroupsOutput, error)
+	RegisterInstancesWithSecurityGroup(context.Context, *RegisterInstancesWithSecurityGroupInput) (*RegisterInstancesWithSecurityGroupOutput, error)
+	RevokeSecurityGroupIngress(context.Context, *RevokeSecurityGroupIngressInput) (*RevokeSecurityGroupIngressOutput, error)
+	UpdateSecurityGroup(context.Context, *UpdateSecurityGroupInput) (*UpdateSecurityGroupOutput, error)
+	DescribeInstanceAttribute(context.Context, *DescribeInstanceAttributeInput) (*DescribeInstanceAttributeOutput, error)
+	DescribeInstances(context.Context, *DescribeInstancesInput) (*DescribeInstancesOutput, error)
+}
+
 type Client struct {
+	Nifcloud
 	URL             *url.URL
 	HTTPClient      *http.Client
 	AccessKeyID     string

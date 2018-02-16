@@ -98,6 +98,10 @@ func (c *Client) CreateSecurityGroup(ctx context.Context, param *CreateSecurityG
 		return nil, err
 	}
 
+	if body.Error != nil {
+		return nil, body.Error
+	}
+
 	return &body, nil
 }
 
