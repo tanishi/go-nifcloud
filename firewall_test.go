@@ -2,22 +2,8 @@ package nifcloud
 
 import (
 	"context"
-	"os"
 	"testing"
 )
-
-var c *Client
-
-func TestMain(m *testing.M) {
-	u := os.Getenv("NIFCLOUD_ENDPOINT")
-	accessKey := os.Getenv("NIFCLOUD_ACCESSKEY")
-	secretAccessKey := os.Getenv("NIFCLOUD_SECRET_ACCESSKEY")
-
-	c, _ = NewClient(u, accessKey, secretAccessKey)
-
-	code := m.Run()
-	os.Exit(code)
-}
 
 func TestAuthorizeSecurityGroupIngress(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
