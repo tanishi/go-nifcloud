@@ -1,5 +1,16 @@
 package nifcloud
 
+import "fmt"
+
+type ErrorResponse struct {
+	Code string `xml:"Code"`
+	Msg  string `xml:"Message"`
+}
+
+func (e ErrorResponse) Error() string {
+	return fmt.Sprintf("Code: %v, Msg: %v", e.Code, e.Msg)
+}
+
 type AuthorizeSecurityGroupIngressInput struct {
 	GroupName     string
 	IPPermissions []IPPermission
@@ -27,8 +38,9 @@ type CreateSecurityGroupInput struct {
 }
 
 type CreateSecurityGroupOutput struct {
-	RequestID string `xml:"requestId"`
-	Return    bool   `xml:"return"`
+	RequestID string         `xml:"requestId"`
+	Return    bool           `xml:"return"`
+	Error     *ErrorResponse `xml:"Errors>Error"`
 }
 
 type DeleteSecurityGroupInput struct {
