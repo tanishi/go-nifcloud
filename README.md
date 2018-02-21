@@ -3,7 +3,7 @@
 ## Feature
 
 - Server
-  - [ ] DescribeInstanceAttribute
+  - [x] DescribeInstanceAttribute
   - [x] DescribeInstances
   - [ ] ModifyInstanceAttribute
   - [ ] RebootInstances
